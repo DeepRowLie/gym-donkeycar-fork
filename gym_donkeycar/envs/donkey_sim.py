@@ -446,17 +446,21 @@ class DonkeyUnitySimHandler(IMesgHandler):
         logger.debug("custom reward fn set.")
 
     def calc_reward(self, done: bool) -> float:
+        # Normalization facotr, real max speed is around 30
+        # but only attained on a long straight line
+        max_speed = 10
+
         if done:
-            return -1.0
+            return -15.0 - self.speed / max_speed
 
         if self.cte > self.max_cte:
-            return -1.0
+            return -15.0
 
         if self.hit != "none":
-            return -2.0
+            return -15.0 - self.speed / max_speed
 
         # going fast close to the center of lane yeilds best reward
-        return (1.0 - (math.fabs(self.cte) / self.max_cte)) * self.speed
+        return (1.0 - (self.cte / self.max_cte) ** 2) * (self.speed / max_speed)
 
     # ------ Socket interface ----------- #
 

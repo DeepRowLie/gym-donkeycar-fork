@@ -21,7 +21,7 @@ logger = logging.getLogger(__name__)
 def supply_defaults(conf: Dict[str, Any]) -> None:
     defaults = [
         ("start_delay", 5.0),
-        ("max_cte", 5.0),
+        ("max_cte", 8.0),
         ("frame_skip", 1),
         ("cam_resolution", (120, 160, 3)),
         ("log_level", logging.INFO),
@@ -48,8 +48,8 @@ class DonkeyEnv(gym.Env):
     ACTION_NAMES: List[str] = ["steer", "throttle"]
     STEER_LIMIT_LEFT: float = -0.5
     STEER_LIMIT_RIGHT: float = 0.5
-    THROTTLE_MIN: float = 0.0
-    THROTTLE_MAX: float = 1.0
+    THROTTLE_MIN: float = -0.2
+    THROTTLE_MAX: float = 1.5
     VAL_PER_PIXEL: int = 255
 
     def __init__(self, level: str, conf: Optional[Dict[str, Any]] = None):
